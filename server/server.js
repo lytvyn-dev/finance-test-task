@@ -4,7 +4,7 @@ const http = require('http');
 const io = require('socket.io');
 const cors = require('cors');
 
-const FETCH_INTERVAL = 5000;
+let FETCH_INTERVAL = 1000;
 const PORT = process.env.PORT || 4000;
 
 const tickers = [
@@ -23,11 +23,17 @@ function randomValue(min = 0, max = 1, precision = 0) {
 
 function utcDate() {
   const now = new Date();
-  return new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+  return new Date(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    now.getUTCHours(),
+    now.getUTCMinutes(),
+    now.getUTCSeconds(),
+  );
 }
 
 function getQuotes(socket) {
-
   const quotes = tickers.map(ticker => ({
     ticker,
     exchange: 'NASDAQ',
@@ -43,15 +49,27 @@ function getQuotes(socket) {
 }
 
 function trackTickers(socket) {
+  let fetchInterval = FETCH_INTERVAL;
+  let timer;
+
   // run the first time immediately
   getQuotes(socket);
 
-  // every N seconds
-  const timer = setInterval(function() {
-    getQuotes(socket);
-  }, FETCH_INTERVAL);
+  const createNewTimer = () => {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      getQuotes(socket);
+    }, fetchInterval);
+  };
 
-  socket.on('disconnect', function() {
+  createNewTimer();
+
+  socket.on('changeInterval', newInterval => {
+    fetchInterval = newInterval;
+    createNewTimer();
+  });
+
+  socket.on('disconnect', function () {
     clearInterval(timer);
   });
 }
@@ -62,15 +80,15 @@ const server = http.createServer(app);
 
 const socketServer = io(server, {
   cors: {
-    origin: "*",
-  }
+    origin: '*',
+  },
 });
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-socketServer.on('connection', (socket) => {
+socketServer.on('connection', socket => {
   socket.on('start', () => {
     trackTickers(socket);
   });
