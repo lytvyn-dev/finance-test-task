@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { socket } from '../../constants/server';
 import { useDispatch } from 'react-redux';
-import { tickersActions } from '../../store/tickers';
+import { connectSocket } from '../../store/tickers';
 
 import styled from 'styled-components';
 
@@ -59,10 +59,7 @@ function ToggleSwitch() {
       socket.off('ticker');
     } else {
       socket.connect();
-      socket.on('ticker', response => {
-        const res = Array.isArray(response) ? response : [response];
-        dispatch(tickersActions.uploadTickers(res));
-      });
+      dispatch(connectSocket());
     }
   };
 

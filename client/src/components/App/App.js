@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { socket } from '../../constants/server';
-import { tickersActions } from '../../store/tickers';
+import { connectSocket } from '../../store/tickers';
 import { useDispatch } from 'react-redux';
 
 import IntervalForm from '../IntervalForm/IntervalForm';
@@ -23,10 +23,7 @@ function App() {
 
   useEffect(() => {
     socket.emit('start');
-    socket.on('ticker', response => {
-      const res = Array.isArray(response) ? response : [response];
-      dispatch(tickersActions.uploadTickers(res));
-    });
+    dispatch(connectSocket());
 
     return () => {
       socket.removeAllListeners('ticker');
