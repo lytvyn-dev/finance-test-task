@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import TickerItem from '../TickerItem/TickerItem';
+
 import styled from 'styled-components';
 
 const StyledList = styled.ul`

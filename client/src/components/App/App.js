@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { socket } from '../../constants/server';
 import { connectSocket } from '../../store/tickers';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import IntervalForm from '../IntervalForm/IntervalForm';
 import TickersList from '../TickersList/TickersList';
@@ -18,8 +18,17 @@ const Layout = styled.main`
   flex-direction: column;
 `;
 
+const Loading = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+`;
+
 function App() {
   const dispatch = useDispatch();
+  const isLoading = useSelector(state => state.isLoading);
 
   useEffect(() => {
     socket.emit('start');
@@ -29,6 +38,8 @@ function App() {
       socket.removeAllListeners('ticker');
     };
   }, [dispatch]);
+
+  if (isLoading) return <Loading>Loading...</Loading>;
 
   return (
     <Layout>

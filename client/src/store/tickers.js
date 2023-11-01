@@ -3,6 +3,7 @@ import { socket } from '../constants/server';
 
 const initialState = {
   tickers: [],
+  isLoading: true,
 };
 
 const tickersSlice = createSlice({
@@ -11,6 +12,7 @@ const tickersSlice = createSlice({
   reducers: {
     uploadTickers: (state, actions) => {
       state.tickers = actions.payload;
+      state.isLoading = false;
     },
   },
 });
