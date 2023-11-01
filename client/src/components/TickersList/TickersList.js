@@ -8,12 +8,12 @@ const StyledList = styled.ul`
 `;
 
 function TickersList() {
-  const quotes = useSelector(state => state.quotes);
+  const tickers = useSelector(state => state.tickers);
 
   return (
     <StyledList>
-      {quotes.map((quote, index) => (
-        <TickerItem data={quote} key={index} />
+      {tickers.map((ticker, index) => (
+        <TickerItem data={ticker} key={index} />
       ))}
     </StyledList>
   );

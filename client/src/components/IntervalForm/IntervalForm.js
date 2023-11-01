@@ -9,7 +9,12 @@ const StyledForm = styled.form`
 `;
 
 const Button = styled.button`
-  color: #333;
+  color: #fff;
+  background-color: black;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border: none;
 `;
 
 const Input = styled.input`
@@ -24,6 +29,7 @@ function IntervalForm() {
   const handleIntervalChange = e => {
     e.preventDefault();
     socket.emit('changeInterval', newInterval);
+    setNewInterval('');
   };
 
   const changeInputHandler = e => {
@@ -40,7 +46,7 @@ function IntervalForm() {
         value={newInterval}
         onChange={changeInputHandler}
       />
-      <Button onClick={handleIntervalChange}>Change interval</Button>
+      <Button onClick={handleIntervalChange}>Change</Button>
     </StyledForm>
   );
 }

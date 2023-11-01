@@ -1,16 +1,21 @@
 import React, { useEffect } from 'react';
 import { socket } from '../../constants/server';
-import { quotesActions } from '../../store/quotes';
+import { tickersActions } from '../../store/tickers';
 import { useDispatch } from 'react-redux';
 
 import IntervalForm from '../IntervalForm/IntervalForm';
 import TickersList from '../TickersList/TickersList';
+import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 
 import styled from 'styled-components';
 import GlobalStyles from '../../styles/GlobalStyles';
 
-const Heading = styled.h1`
-  text-align: center;
+const Layout = styled.main`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 function App() {
@@ -20,7 +25,7 @@ function App() {
     socket.emit('start');
     socket.on('ticker', response => {
       const res = Array.isArray(response) ? response : [response];
-      dispatch(quotesActions.uploadQuoted(res));
+      dispatch(tickersActions.uploadTickers(res));
     });
 
     return () => {
@@ -29,12 +34,12 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
+    <Layout>
       <GlobalStyles />
-      <Heading>Finance stream</Heading>
+      <ToggleSwitch />
       <TickersList />
       <IntervalForm />
-    </div>
+    </Layout>
   );
 }
 

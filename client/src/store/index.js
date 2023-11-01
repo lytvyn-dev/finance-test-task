@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { quotesReducer } from './quotes';
+import { tickersReducer } from './tickers';
 
-const store = configureStore({ reducer: quotesReducer });
+const store = configureStore({ reducer: tickersReducer });
 
 export default store;
