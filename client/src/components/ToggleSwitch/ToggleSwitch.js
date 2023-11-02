@@ -10,11 +10,11 @@ const Toggle = styled.input`
   width: 0;
   visibility: hidden;
 
-  &:checked + label {
+  &:not(:checked) + label {
     background: #bada55;
   }
 
-  &:checked + label::after {
+  &:not(:checked) + label::after {
     left: calc(100% - 5px);
     transform: translateX(-100%);
   }
