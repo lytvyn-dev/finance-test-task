@@ -71,7 +71,7 @@ function ToggleSwitch() {
         onChange={handleSwitch}
         checked={isTickersOn}
       />
-      <Label htmlFor="switch"></Label>
+      <Label htmlFor="switch">Toggle</Label>
     </>
   );
 }

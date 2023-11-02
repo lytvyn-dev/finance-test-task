@@ -28,15 +28,15 @@ function TickerItem({ data }) {
   useEffect(() => {
     if (prevPrice !== null) {
       if (data.price > prevPrice) {
-        // setIsPriceIncreased(true);
         colorRef.current = 'green';
       } else if (data.price < prevPrice) {
-        // setIsPriceIncreased(false);
         colorRef.current = 'red';
       }
     }
     setPrevPrice(data.price);
   }, [data.price, prevPrice]);
+
+  if (Object.keys(data).length === 0) return null;
 
   return (
     <Ticker>

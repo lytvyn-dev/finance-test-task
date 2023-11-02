@@ -3,9 +3,9 @@ import { socket } from '../../constants/server';
 import { connectSocket } from '../../store/tickers';
 import { useDispatch, useSelector } from 'react-redux';
 
-import IntervalForm from '../IntervalForm/IntervalForm';
-import TickersList from '../TickersList/TickersList';
-import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
+import IntervalForm from '../IntervalForm';
+import TickersList from '../TickersList';
+import ToggleSwitch from '../ToggleSwitch';
 
 import styled from 'styled-components';
 import GlobalStyles from '../../styles/GlobalStyles';
